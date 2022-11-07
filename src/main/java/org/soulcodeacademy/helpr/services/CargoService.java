@@ -1,6 +1,7 @@
 package org.soulcodeacademy.helpr.services;
 
 import org.soulcodeacademy.helpr.domanin.Cargo;
+import org.soulcodeacademy.helpr.domanin.dto.CargoDTO;
 import org.soulcodeacademy.helpr.repositories.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,21 +34,22 @@ public class CargoService {
         }
     }
     //Salvar
-    public Cargo salvar(Cargo novoCargo){
-        novoCargo.setIdCargo(null); //Limpar o campo id para não substituir
+    public Cargo salvar(CargoDTO dto){
         //INSERT INTO cargo
-        Cargo cargoSalvo = this.cargoRepository.save(novoCargo);
+        //Criando uma entidade nova a partir do DTO
+        Cargo cargo=new Cargo(null, dto.getNome(), dto.getDescricao(), dto.getSalario());
+        Cargo cargoSalvo = this.cargoRepository.save(cargo);
         return cargoSalvo;
     }
     //Atualizar
     // Preciso do ID do cargo e dos dados atualizados
-    public Cargo atualizar(Integer idCargo, Cargo novoCargo){
+    public Cargo atualizar(Integer idCargo, CargoDTO dto){
         // Verificar se o cargo existe mesmo
         Cargo cargoAtual=this.getCargo(idCargo);
 
-        cargoAtual.setNome(novoCargo.getNome());
-        cargoAtual.setDescricao(novoCargo.getDescricao());
-        cargoAtual.setSalario(novoCargo.getSalario());
+        cargoAtual.setNome(dto.getNome());
+        cargoAtual.setDescricao(dto.getDescricao());
+        cargoAtual.setSalario(dto.getSalario());
 
         //Atualiza a entidade, pois ela possui um ID diferente de null
         Cargo atualizado = this.cargoRepository.save(cargoAtual);

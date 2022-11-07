@@ -1,10 +1,12 @@
 package org.soulcodeacademy.helpr.controllers;
 
 import org.soulcodeacademy.helpr.domanin.Cargo;
+import org.soulcodeacademy.helpr.domanin.dto.CargoDTO;
 import org.soulcodeacademy.helpr.services.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController // retorno de dados
@@ -38,14 +40,14 @@ public class CargoController {
 
     //Podemos usar o mesmo endpoint para verbos diferentes
     @PostMapping("/cargos")
-    public Cargo salvar(@RequestBody Cargo cargo){ // REQUISIÇÃO TIPO POST para /cargos
-        //@RequestBody - extrai do JSON do corpo e converte para cargo(deserialização)
+    public Cargo salvar(@Valid @RequestBody CargoDTO cargo){ // REQUISIÇÃO TIPO POST para /cargos
+        //@RequestBody - extrair o JSON do corpo e converte para cargo(deserialização)
         Cargo salvo = this.cargoService.salvar(cargo);
         return salvo;
     }
 
     @PutMapping("/cargos/{idCargo}")
-    public Cargo atualizar(@PathVariable Integer idCargo, @RequestBody Cargo cargo){
+    public Cargo atualizar(@PathVariable Integer idCargo, @Valid @RequestBody CargoDTO cargo){
         Cargo atualizado = this.cargoService.atualizar(idCargo, cargo);
         return atualizado;// Resposta para o cliente(cargo atualizado)
     }
