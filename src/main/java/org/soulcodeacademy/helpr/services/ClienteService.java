@@ -1,8 +1,6 @@
 package org.soulcodeacademy.helpr.services;
 
-import org.soulcodeacademy.helpr.domanin.Cargo;
 import org.soulcodeacademy.helpr.domanin.Cliente;
-import org.soulcodeacademy.helpr.domanin.Funcionario;
 import org.soulcodeacademy.helpr.domanin.dto.ClienteDTO;
 import org.soulcodeacademy.helpr.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,6 @@ import java.util.Optional;
 
 @Service
 public class ClienteService {
-
-    @Autowired
-    private ClienteService clienteService;
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -44,10 +39,14 @@ public class ClienteService {
         return clienteSalvo;
     }
 
+    // Quando usar entidade e dto?
+    // Entidade = retorno dos dados
+    // DTO = entrada de dados
+
     //ATUALIZAR
     public Cliente atualizar(Integer idCliente, ClienteDTO dto){
 
-        Cliente clienteAtual=this.getCliente(idCliente);
+        Cliente clienteAtual=this.getCliente(idCliente); //garante que não será acrescentado um novo cliente e sim atualizá-lo
 
         clienteAtual.setNome(dto.getNome());
         clienteAtual.setEmail(dto.getEmail());

@@ -2,6 +2,7 @@ package org.soulcodeacademy.helpr.domanin;
 
 import org.soulcodeacademy.helpr.domanin.enums.Perfil;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 //- Cliente extends Usuario (entidade): telefone (nova coluna)
@@ -11,6 +12,8 @@ import javax.persistence.Entity;
 //- ClienteController
 @Entity
 public class Cliente extends Usuario{
+
+    @Column(length = 25)
     private String telefone;
 
     public Cliente(){}

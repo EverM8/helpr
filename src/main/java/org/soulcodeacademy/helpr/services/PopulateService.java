@@ -1,8 +1,10 @@
 package org.soulcodeacademy.helpr.services;
 
 import org.soulcodeacademy.helpr.domanin.Cargo;
+import org.soulcodeacademy.helpr.domanin.Cliente;
 import org.soulcodeacademy.helpr.domanin.Funcionario;
 import org.soulcodeacademy.helpr.repositories.CargoRepository;
+import org.soulcodeacademy.helpr.repositories.ClienteRepository;
 import org.soulcodeacademy.helpr.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class PopulateService {
     private CargoRepository cargoRepository;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     public void populate(){
         //                (Integer idCargo, String nome, String descricao, double salario)
@@ -30,7 +35,13 @@ public class PopulateService {
         this.cargoRepository.save(c3);
         this.funcionarioRepository.save(f1);
         this.funcionarioRepository.save(f2);
+
+        Cliente cl1= new Cliente(null, "Jõao", "joão@email.com", "55655757899", "12345", "+55 (00) 98888-8888");
+        Cliente cl2 = new Cliente(null, "Pedro João", "pedro@gmail.com", "37734168302", "batata", "+55 (99) 99999-9997");
+        this.clienteRepository.save(cl1);
+        this.clienteRepository.save(cl2);
     }
+
 }
 
 // O objetivo desta classe é inserir no banco dados ficticios (de teste)
