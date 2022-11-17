@@ -1,13 +1,18 @@
 package org.soulcodeacademy.helpr.services;
 
 import org.soulcodeacademy.helpr.domanin.Cargo;
+import org.soulcodeacademy.helpr.domanin.Chamado;
 import org.soulcodeacademy.helpr.domanin.Cliente;
 import org.soulcodeacademy.helpr.domanin.Funcionario;
+import org.soulcodeacademy.helpr.domanin.enums.StatusChamado;
 import org.soulcodeacademy.helpr.repositories.CargoRepository;
+import org.soulcodeacademy.helpr.repositories.ChamadoRepository;
 import org.soulcodeacademy.helpr.repositories.ClienteRepository;
 import org.soulcodeacademy.helpr.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service // Indica para o Spring que esta classe será gerenciada por ele
 public class PopulateService {
@@ -18,6 +23,9 @@ public class PopulateService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ChamadoRepository chamadoRepository;
 
     public void populate(){
         //                (Integer idCargo, String nome, String descricao, double salario)
@@ -30,17 +38,28 @@ public class PopulateService {
         Funcionario f2 = new Funcionario(null, "Victor Icoma", "victor@email.com", "51127383671", "12345", null, c2);
 
         //vamos persistir as entidades = salvar no banco
-        this.cargoRepository.save(c1); //INSERT INTO
-        this.cargoRepository.save(c2);
-        this.cargoRepository.save(c3);
-        this.funcionarioRepository.save(f1);
-        this.funcionarioRepository.save(f2);
+        this.cargoRepository.saveAll(List.of(c1,c2,c3));//INSERT INTO
+
+        this.funcionarioRepository.saveAll(List.of(f1,f2));
 
         Cliente cl1= new Cliente(null, "Jõao", "joão@email.com", "55655757899", "12345", "+55 (00) 98888-8888");
         Cliente cl2 = new Cliente(null, "Pedro João", "pedro@gmail.com", "37734168302", "batata", "+55 (99) 99999-9997");
-        this.clienteRepository.save(cl1);
-        this.clienteRepository.save(cl2);
+        this.clienteRepository.saveAll(List.of(cl1,cl2));
+        //this.clienteRepository.save(cl1);
+        //this.clienteRepository.save(cl2);
+
+         Chamado ch1=new Chamado(null, "Primeiro chamado do sistema.", "Revisar entidades criadas");
+        ch1.setCliente(cl1);
+        Chamado ch2=new Chamado(null, "Ativar VPN do sistema.", "Conectar aos servidores remotos");
+        ch2.setCliente(cl2);
+        ch2.setFuncionario(f1);
+        ch2.setStatus(StatusChamado.ATRIBUIDO);
+        this.chamadoRepository.saveAll(List.of(ch1,ch2));
+
+
     }
+
+
 
 }
 

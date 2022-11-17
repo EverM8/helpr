@@ -5,8 +5,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository // indica que a interface é um repository
 public interface CargoRepository extends JpaRepository<Cargo, Integer> { // <Entidade, PK>
+    //Filtre os cargos que possuem este nome
+    List<Cargo> findByNome(String nome); // WHERE nome = valor
+    //Filtre os cargos que possuem este salario
+    List<Cargo> findBySalario(Double valor); //WHERE salario = valor
+    List<Cargo> findBySalarioGreaterThan(Double valor); //WHERE salario > valor
+    List<Cargo> findBySalarioGreaterThanEqual(Double valor); //WHERE salario >= valor
+    List<Cargo> findBySalarioLessThan(Double valor); //WHERE salario < valor
+
+    List<Cargo> findBySalarioLessThanEqual(Double valor); //WHERE salario <= valor
+    List<Cargo> findBySalarioBetween(Double valor1, Double valor2); //WHERE salario BETWEEN valor1 AND valor2
+
 }
 
 // Repository = é um recurso que permite manipular a entidade no banco de dados
