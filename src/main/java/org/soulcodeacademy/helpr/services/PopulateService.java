@@ -4,12 +4,14 @@ import org.soulcodeacademy.helpr.domanin.Cargo;
 import org.soulcodeacademy.helpr.domanin.Chamado;
 import org.soulcodeacademy.helpr.domanin.Cliente;
 import org.soulcodeacademy.helpr.domanin.Funcionario;
+import org.soulcodeacademy.helpr.domanin.enums.Perfil;
 import org.soulcodeacademy.helpr.domanin.enums.StatusChamado;
 import org.soulcodeacademy.helpr.repositories.CargoRepository;
 import org.soulcodeacademy.helpr.repositories.ChamadoRepository;
 import org.soulcodeacademy.helpr.repositories.ClienteRepository;
 import org.soulcodeacademy.helpr.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,23 +29,26 @@ public class PopulateService {
     @Autowired
     private ChamadoRepository chamadoRepository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     public void populate(){
         //                (Integer idCargo, String nome, String descricao, double salario)
         Cargo c1=new Cargo(null, "Diretor Geral", "Gerencia a empresa", 30000.0);
         Cargo c2= new Cargo(null, "Diretor de Setor", "Gerencia o setor da empresa", 18000.0);
         Cargo c3= new Cargo(null, "Técnico Geral", "Resolve os chamados urgentes ", 12000.0);
         //Integer id, String nome, String email, String cpf, String senha, String foto, Cargo cargo);
-        Funcionario f1=new Funcionario(null, "Renato","renato@email.com", "14243481881", "123456", null, c1);
-
-        Funcionario f2 = new Funcionario(null, "Victor Icoma", "victor@email.com", "51127383671", "12345", null, c2);
+        Funcionario f1=new Funcionario(null, "Renato","renato@email.com", "14243481881", encoder.encode("123456"), null, c1);
+        f1.setPerfil(Perfil.ADMIN);
+        Funcionario f2 = new Funcionario(null, "Victor Icoma", "victor@email.com", "51127383671", encoder.encode("123456"), null, c2);
 
         //vamos persistir as entidades = salvar no banco
         this.cargoRepository.saveAll(List.of(c1,c2,c3));//INSERT INTO
 
         this.funcionarioRepository.saveAll(List.of(f1,f2));
 
-        Cliente cl1= new Cliente(null, "Jõao", "joão@email.com", "55655757899", "12345", "+55 (00) 98888-8888");
-        Cliente cl2 = new Cliente(null, "Pedro João", "pedro@gmail.com", "37734168302", "batata", "+55 (99) 99999-9997");
+        Cliente cl1= new Cliente(null, "Jõao", "joão@email.com", "55655757899", encoder.encode("123456"), "+55 (00) 98888-8888");
+        Cliente cl2 = new Cliente(null, "Pedro João", "pedro@gmail.com", "37734168302", encoder.encode("batata"), "+55 (99) 99999-9997");
         this.clienteRepository.saveAll(List.of(cl1,cl2));
         //this.clienteRepository.save(cl1);
         //this.clienteRepository.save(cl2);

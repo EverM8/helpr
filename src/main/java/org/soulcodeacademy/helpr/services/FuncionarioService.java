@@ -25,6 +25,11 @@ public class FuncionarioService {
         return this.funcionarioRepository.findAll();
     }
 
+    //LISTAR PELA FAIXA SALARIAL
+    public List<Funcionario> listarPorFaixaSalarial(double valor1, double valor2){
+        return this.funcionarioRepository.findBySalarioEntreFaixas(valor1, valor2);
+    }
+
     //Listar um pelo ID
     public Funcionario getFuncionario(Integer idFuncionario){
         Optional<Funcionario> funcionario = this.funcionarioRepository.findById(idFuncionario);
